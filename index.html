@@ -2,427 +2,280 @@
 <html lang="ku" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Erest Grocery - PNG</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-
-      font-family:
-        Arial,
-        "Noto Sans Arabic",
-        sans-serif;
-
-      background: #080910;
-      color: white;
-
-      padding: 35px 15px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 760px;
-      margin: auto;
-    }
-
-    .card {
-      background: #17181f;
-
-      border: 1px solid #343640;
-
-      border-radius: 28px;
-
-      padding: 35px 25px;
-
-      text-align: center;
-
-      box-shadow:
-        0 20px 70px rgba(0,0,0,.35);
-    }
-
-    .logo {
-      direction: ltr;
-
-      font-size: 40px;
-
-      font-weight: 800;
-
-      color: #c45be1;
-
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: #bcbcc2;
-
-      font-size: 17px;
-
-      margin-bottom: 30px;
-    }
-
-    .upload-box {
-
-      display: block;
-
-      background: white;
-
-      color: #111;
-
-      border: 4px dashed #b14ddd;
-
-      border-radius: 25px;
-
-      padding: 38px 15px;
-
-      cursor: pointer;
-
-      transition: .2s;
-
-    }
-
-    .upload-box:hover {
-      transform: scale(1.01);
-    }
-
-    .upload-title {
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    .upload-subtitle {
-      margin-top: 10px;
-
-      font-size: 15px;
-
-      color: #777;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    #status {
-
-      margin-top: 22px;
-
-      color: #d55be5;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-      min-height: 25px;
-    }
-
-    .buttons {
-
-      margin-top: 10px;
-
-      display: flex;
-
-      justify-content: center;
-
-      flex-wrap: wrap;
-
-      gap: 8px;
-    }
-
-    button {
-
-      border: 0;
-
-      border-radius: 12px;
-
-      padding: 13px 22px;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      color: white;
-
-      background: #b94fda;
-
-    }
-
-    button:disabled {
-
-      opacity: .35;
-
-      cursor: not-allowed;
-
-    }
-
-    #downloadAll {
-
-      background: #159447;
-
-    }
-
-    .progress {
-
-      width: 100%;
-
-      height: 8px;
-
-      background: #292a31;
-
-      border-radius: 20px;
-
-      margin-top: 20px;
-
-      overflow: hidden;
-
-      display: none;
-    }
-
-    .progress-bar {
-
-      height: 100%;
-
-      width: 0%;
-
-      background: #bd55dc;
-
-      transition: width .3s;
-    }
-
-    #results {
-
-      margin-top: 25px;
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(2, 1fr);
-
-      gap: 15px;
-    }
-
-    .result {
-
-      background: #282930;
-
-      border-radius: 18px;
-
-      padding: 12px;
-    }
-
-    .result img {
-
-      width: 100%;
-
-      height: 230px;
-
-      object-fit: contain;
-
-      background: white;
-
-      border-radius: 12px;
-
-      display: block;
-    }
-
-    .filename {
-
-      color: #bdbdc4;
-
-      font-size: 13px;
-
-      margin: 9px 0;
-
-      word-break: break-all;
-
-      direction: ltr;
-    }
-
-    .download-one {
-
-      width: 100%;
-
-      background: #b94fda;
-    }
-
-    .footer {
-
-      margin-top: 30px;
-
-      color: #777;
-
-      font-size: 14px;
-
-      direction: ltr;
-    }
-
-    @media (max-width: 600px) {
-
-      body {
-        padding: 20px 10px;
-      }
-
-      .card {
-        padding: 28px 15px;
-      }
-
-      .logo {
-        font-size: 32px;
-      }
-
-      #results {
-        grid-template-columns: 1fr;
-      }
-
-      .result img {
-        height: 280px;
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Erest Grocery</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:#080910;
+  color:white;
+  font-family:Arial,sans-serif;
+  padding:25px 12px;
+}
+
+.card{
+  max-width:760px;
+  margin:auto;
+  background:#17181f;
+  border:1px solid #363741;
+  border-radius:28px;
+  padding:35px 20px;
+  text-align:center;
+}
+
+.logo{
+  direction:ltr;
+  color:#bd55dc;
+  font-size:42px;
+  font-weight:800;
+}
+
+.subtitle{
+  color:#bbb;
+  font-size:18px;
+  margin:12px 0 30px;
+}
+
+.upload{
+  width:100%;
+  border:4px dashed #b14ddd;
+  background:#fff;
+  color:#111;
+  border-radius:25px;
+  padding:38px 15px;
+}
+
+#fileInput{
+  display:none;
+}
+
+.selectButton{
+  display:inline-block;
+  background:#fff;
+  color:#111;
+  border:0;
+  font-size:21px;
+  font-weight:bold;
+  cursor:pointer;
+  padding:10px 20px;
+}
+
+.small{
+  color:#777;
+  margin-top:8px;
+  font-size:15px;
+}
+
+#status{
+  min-height:30px;
+  margin:22px 0;
+  color:#d65be7;
+  font-weight:bold;
+}
+
+button.action{
+  border:0;
+  border-radius:13px;
+  padding:14px 24px;
+  margin:5px;
+  color:white;
+  background:#b94fda;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button.action:disabled{
+  opacity:.35;
+}
+
+#downloadAll{
+  background:#159447;
+}
+
+#progress{
+  display:none;
+  margin-top:20px;
+  height:8px;
+  background:#292a32;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+#bar{
+  height:100%;
+  width:0%;
+  background:#bd55dc;
+  transition:.3s;
+}
+
+#results{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:25px;
+}
+
+.result{
+  background:#292a32;
+  padding:12px;
+  border-radius:18px;
+}
+
+.result img{
+  width:100%;
+  height:230px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:12px;
+}
+
+.filename{
+  color:#bbb;
+  font-size:13px;
+  margin:8px;
+  direction:ltr;
+  word-break:break-all;
+}
+
+.download{
+  width:100%;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  background:#b94fda;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.footer{
+  margin-top:30px;
+  color:#777;
+  direction:ltr;
+}
+
+@media(max-width:600px){
+
+  .logo{
+    font-size:34px;
+  }
+
+  #results{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
 </head>
 
 
 <body>
 
-  <div class="container">
+<div class="card">
 
-    <div class="card">
+  <div class="logo">
+    Erest grocery
+  </div>
 
-      <div class="logo">
-        Erest grocery
-      </div>
-
-      <div class="subtitle">
-        وێنەکەت بکە بە پشتی سپی
-      </div>
+  <div class="subtitle">
+    وێنەکەت بکە بە پشتی سپی
+  </div>
 
 
-      <!-- UPLOAD -->
+  <div class="upload">
 
-      <label
-        class="upload-box"
-        for="fileInput"
-      >
+    <button
+      class="selectButton"
+      id="selectButton"
+      type="button"
+    >
+      📁 وێنەکان هەڵبژێرە
+    </button>
 
-        <div class="upload-title">
-          📁 وێنەکان لێرە هەڵبژێرە
-        </div>
-
-        <div class="upload-subtitle">
-          تا ١٠ وێنە یەکجار
-        </div>
-
-      </label>
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        multiple
-      >
-
-
-      <!-- STATUS -->
-
-      <div id="status">
-        هیچ وێنەیەک هەڵنەبژێردراوە
-      </div>
-
-
-      <!-- BUTTONS -->
-
-      <div class="buttons">
-
-        <button
-          id="processButton"
-          disabled
-        >
-          ✨ سڕینەوەی پشتەوە
-        </button>
-
-
-        <button
-          id="downloadAll"
-          disabled
-        >
-          ⬇️ هەمووی دابەزێنە
-        </button>
-
-      </div>
-
-
-      <!-- PROGRESS -->
-
-      <div
-        id="progress"
-        class="progress"
-      >
-
-        <div
-          id="progressBar"
-          class="progress-bar"
-        ></div>
-
-      </div>
-
-
-      <!-- RESULTS -->
-
-      <div id="results"></div>
-
-
-      <div class="footer">
-        rover & paiwast
-      </div>
-
+    <div class="small">
+      تا ١٠ وێنە یەکجار
     </div>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/*"
+      multiple
+    >
 
   </div>
 
 
-<script type="module">
+  <div id="status">
+    هیچ وێنەیەک هەڵنەبژێردراوە
+  </div>
 
-/*
-====================================================
-  BACKGROUND REMOVAL LIBRARY
-====================================================
-*/
+
+  <button
+    id="processButton"
+    class="action"
+    type="button"
+    disabled
+  >
+    ✨ سڕینەوەی پشتەوە
+  </button>
+
+
+  <button
+    id="downloadAll"
+    class="action"
+    type="button"
+    disabled
+  >
+    ⬇️ هەمووی دابەزێنە
+  </button>
+
+
+  <div id="progress">
+    <div id="bar"></div>
+  </div>
+
+
+  <div id="results"></div>
+
+
+  <div class="footer">
+    rover & paiwast
+  </div>
+
+</div>
+
+
+<script type="module">
 
 import {
   removeBackground
-} from
+}
+from
 "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm";
 
-
-/*
-====================================================
-  ELEMENTS
-====================================================
-*/
 
 const fileInput =
   document.getElementById("fileInput");
 
+const selectButton =
+  document.getElementById("selectButton");
+
 const processButton =
   document.getElementById("processButton");
 
-const downloadAllButton =
+const downloadAll =
   document.getElementById("downloadAll");
 
 const status =
@@ -434,47 +287,48 @@ const results =
 const progress =
   document.getElementById("progress");
 
-const progressBar =
-  document.getElementById("progressBar");
+const bar =
+  document.getElementById("bar");
 
 
-/*
-====================================================
-  VARIABLES
-====================================================
-*/
+let files = [];
 
-let selectedFiles = [];
-
-let processedImages = [];
+let finished = [];
 
 
-/*
-====================================================
-  SELECT IMAGES
-====================================================
-*/
+/* =========================
+   OPEN FILE PICKER
+========================= */
+
+selectButton.onclick = function(){
+
+  fileInput.click();
+
+};
+
+
+/* =========================
+   SELECT FILES
+========================= */
 
 fileInput.addEventListener(
   "change",
-  function () {
+  function(){
 
-    selectedFiles =
+    files =
       Array.from(
-        fileInput.files
-      ).slice(0, 10);
+        this.files
+      ).slice(0,10);
 
-
-    processedImages = [];
 
     results.innerHTML = "";
 
-    downloadAllButton.disabled = true;
+    finished = [];
+
+    downloadAll.disabled = true;
 
 
-    if (
-      selectedFiles.length === 0
-    ) {
+    if(files.length === 0){
 
       processButton.disabled = true;
 
@@ -482,6 +336,7 @@ fileInput.addEventListener(
         "هیچ وێنەیەک هەڵنەبژێردراوە";
 
       return;
+
     }
 
 
@@ -489,306 +344,171 @@ fileInput.addEventListener(
 
 
     status.textContent =
-      selectedFiles.length +
+      files.length +
       " وێنە هەڵبژێردراوە ✅";
 
   }
 );
 
 
-/*
-====================================================
-  PROCESS BUTTON
-====================================================
-*/
+/* =========================
+   PROCESS
+========================= */
 
-processButton.addEventListener(
-  "click",
-  processImages
-);
+processButton.onclick =
+async function(){
 
-
-async function processImages() {
-
-  if (
-    selectedFiles.length === 0
-  ) {
+  if(files.length === 0){
     return;
   }
 
 
   processButton.disabled = true;
 
-  downloadAllButton.disabled = true;
+  downloadAll.disabled = true;
 
   results.innerHTML = "";
 
-  processedImages = [];
+  finished = [];
+
+  progress.style.display = "block";
 
 
-  progress.style.display =
-    "block";
-
-
-  /*
-  ----------------------------------------------
-  PROCESS EACH IMAGE
-  ----------------------------------------------
-  */
-
-  for (
-    let i = 0;
-    i < selectedFiles.length;
+  for(
+    let i=0;
+    i<files.length;
     i++
-  ) {
+  ){
 
-    const file =
-      selectedFiles[i];
+    const file = files[i];
 
 
     status.textContent =
-      "خەریکی سڕینەوەی پشتەوەی وێنەی " +
-      (i + 1) +
-      " لە " +
-      selectedFiles.length +
-      "...";
+      "AI خەریکی کارکردنە... " +
+      (i+1) +
+      " / " +
+      files.length;
 
 
-    progressBar.style.width =
-      (
-        (i /
-          selectedFiles.length) *
-        100
-      ) + "%";
+    bar.style.width =
+      ((i/files.length)*100) +
+      "%";
 
 
-    try {
+    try{
 
 
-      /*
-      ------------------------------------------
-      REMOVE BACKGROUND
-      ------------------------------------------
-      */
+      /* REMOVE BACKGROUND */
 
-      const transparentBlob =
+      const transparent =
         await removeBackground(
           file,
           {
-
-            output: {
-
-              format: "image/png",
-
-              quality: 1
-
-            },
-
-            progress:
-              (
-                key,
-                current,
-                total
-              ) => {
-
-                if (
-                  key ===
-                  "compute:inference"
-                ) {
-
-                  status.textContent =
-                    "AI خەریکی سڕینەوەی پشتەوەیە...";
-
-                }
-
-              }
-
+            model:"isnet",
+            output:{
+              format:"image/png",
+              quality:1
+            }
           }
         );
 
 
-      /*
-      ------------------------------------------
-      ADD WHITE BACKGROUND
-      ------------------------------------------
-      */
+      /* WHITE BACKGROUND */
 
-      const finalPNG =
-        await addWhiteBackground(
-          transparentBlob
+      const finalBlob =
+        await makeWhite(
+          transparent
         );
 
 
-      /*
-      ------------------------------------------
-      FILE NAME
-      ------------------------------------------
-      */
-
-      const cleanName =
+      const name =
         file.name
-          .replace(
-            /\.[^/.]+$/,
-            ""
-          );
+        .replace(/\.[^/.]+$/,"")
+        + ".png";
 
 
-      const finalName =
-        cleanName +
-        ".png";
-
-
-      /*
-      ------------------------------------------
-      CREATE PREVIEW
-      ------------------------------------------
-      */
-
-      const imageURL =
+      const url =
         URL.createObjectURL(
-          finalPNG
+          finalBlob
         );
 
 
-      createResult(
-        imageURL,
-        finalPNG,
-        finalName
+      showResult(
+        url,
+        finalBlob,
+        name
       );
 
 
-      /*
-      ------------------------------------------
-      SAVE
-      ------------------------------------------
-      */
-
-      processedImages.push({
-
-        blob: finalPNG,
-
-        name: finalName
-
+      finished.push({
+        blob:finalBlob,
+        name:name
       });
 
 
     }
-    catch (error) {
+    catch(error){
 
-      console.error(
-        "Background removal error:",
-        error
-      );
+      console.error(error);
 
-
-      const errorBox =
-        document.createElement(
-          "div"
-        );
-
-      errorBox.style.color =
-        "#ff6b6b";
-
-      errorBox.style.padding =
-        "10px";
-
-
-      errorBox.textContent =
-        "❌ وێنەی " +
-        (i + 1) +
-        " نەکرا";
-
-
-      results.appendChild(
-        errorBox
-      );
+      status.innerHTML =
+        "❌ هەڵە لە وێنەی " +
+        (i+1) +
+        "<br><small>" +
+        error.message +
+        "</small>";
 
     }
 
   }
 
 
-  /*
-  ----------------------------------------------
-  COMPLETE
-  ----------------------------------------------
-  */
-
-  progressBar.style.width =
-    "100%";
+  bar.style.width = "100%";
 
 
-  if (
-    processedImages.length > 0
-  ) {
+  if(finished.length){
 
     status.textContent =
       "تەواو بوو ✅ " +
-      processedImages.length +
+      finished.length +
       " وێنە";
 
-    downloadAllButton.disabled =
-      false;
-
-  }
-  else {
-
-    status.textContent =
-      "هیچ وێنەیەک نەکرا ❌";
+    downloadAll.disabled = false;
 
   }
 
 
-  processButton.disabled =
-    false;
+  processButton.disabled = false;
 
-}
-
-
-/*
-====================================================
-  ADD WHITE BACKGROUND
-====================================================
-*/
-
-async function addWhiteBackground(
-  transparentBlob
-) {
-
-  const imageURL =
-    URL.createObjectURL(
-      transparentBlob
-    );
+};
 
 
-  const image =
+/* =========================
+   WHITE BACKGROUND
+========================= */
+
+async function makeWhite(blob){
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const img =
     new Image();
 
 
   await new Promise(
-    (
-      resolve,
-      reject
-    ) => {
+    (resolve,reject)=>{
 
-      image.onload =
-        resolve;
+      img.onload = resolve;
 
-      image.onerror =
-        reject;
+      img.onerror = reject;
 
-      image.src =
-        imageURL;
+      img.src = url;
 
     }
   );
 
-
-  /*
-  ----------------------------------------------
-  CANVAS
-  ----------------------------------------------
-  */
 
   const canvas =
     document.createElement(
@@ -797,23 +517,15 @@ async function addWhiteBackground(
 
 
   canvas.width =
-    image.naturalWidth;
+    img.naturalWidth;
 
   canvas.height =
-    image.naturalHeight;
+    img.naturalHeight;
 
 
   const ctx =
-    canvas.getContext(
-      "2d"
-    );
+    canvas.getContext("2d");
 
-
-  /*
-  ----------------------------------------------
-  WHITE BACKGROUND
-  ----------------------------------------------
-  */
 
   ctx.fillStyle =
     "#ffffff";
@@ -827,39 +539,21 @@ async function addWhiteBackground(
   );
 
 
-  /*
-  ----------------------------------------------
-  PUT CUTOUT ON WHITE
-  ----------------------------------------------
-  */
-
   ctx.drawImage(
-    image,
+    img,
     0,
     0
   );
 
 
-  URL.revokeObjectURL(
-    imageURL
-  );
+  URL.revokeObjectURL(url);
 
 
-  /*
-  ----------------------------------------------
-  EXPORT PNG
-  ----------------------------------------------
-  */
-
-  return await new Promise(
-    resolve => {
+  return new Promise(
+    resolve=>{
 
       canvas.toBlob(
-        blob => {
-
-          resolve(blob);
-
-        },
+        resolve,
         "image/png",
         1
       );
@@ -870,17 +564,15 @@ async function addWhiteBackground(
 }
 
 
-/*
-====================================================
-  CREATE RESULT CARD
-====================================================
-*/
+/* =========================
+   SHOW RESULT
+========================= */
 
-function createResult(
-  imageURL,
+function showResult(
+  url,
   blob,
-  filename
-) {
+  name
+){
 
   const box =
     document.createElement(
@@ -891,25 +583,24 @@ function createResult(
     "result";
 
 
-  const image =
+  const img =
     document.createElement(
       "img"
     );
 
-  image.src =
-    imageURL;
+  img.src = url;
 
 
-  const name =
+  const filename =
     document.createElement(
       "div"
     );
 
-  name.className =
+  filename.className =
     "filename";
 
-  name.textContent =
-    filename;
+  filename.textContent =
+    name;
 
 
   const button =
@@ -918,57 +609,43 @@ function createResult(
     );
 
   button.className =
-    "download-one";
+    "download";
 
   button.textContent =
     "⬇️ Download PNG";
 
 
-  button.addEventListener(
-    "click",
-    function () {
+  button.onclick =
+    function(){
 
-      downloadBlob(
+      download(
         blob,
-        filename
+        name
       );
 
-    }
-  );
+    };
 
 
-  box.appendChild(
-    image
-  );
+  box.appendChild(img);
+
+  box.appendChild(filename);
+
+  box.appendChild(button);
 
 
-  box.appendChild(
-    name
-  );
-
-
-  box.appendChild(
-    button
-  );
-
-
-  results.appendChild(
-    box
-  );
+  results.appendChild(box);
 
 }
 
 
-/*
-====================================================
-  DOWNLOAD ONE
-====================================================
-*/
+/* =========================
+   DOWNLOAD
+========================= */
 
-function downloadBlob(
+function download(
   blob,
-  filename
-) {
+  name
+){
 
   const url =
     URL.createObjectURL(
@@ -976,37 +653,27 @@ function downloadBlob(
     );
 
 
-  const link =
+  const a =
     document.createElement(
       "a"
     );
 
 
-  link.href =
-    url;
+  a.href = url;
 
-  link.download =
-    filename;
+  a.download = name;
 
 
-  document.body.appendChild(
-    link
-  );
+  document.body.appendChild(a);
 
+  a.click();
 
-  link.click();
-
-
-  link.remove();
+  a.remove();
 
 
   setTimeout(
-    () => {
-
-      URL.revokeObjectURL(
-        url
-      );
-
+    ()=>{
+      URL.revokeObjectURL(url);
     },
     1000
   );
@@ -1014,54 +681,34 @@ function downloadBlob(
 }
 
 
-/*
-====================================================
-  DOWNLOAD ALL
-====================================================
-*/
+/* =========================
+   DOWNLOAD ALL
+========================= */
 
-downloadAllButton.addEventListener(
-  "click",
-  async function () {
+downloadAll.onclick =
+async function(){
 
-    if (
-      processedImages.length === 0
-    ) {
-      return;
-    }
+  for(
+    const item of finished
+  ){
 
-
-    status.textContent =
-      "خەریکی دابەزاندنی وێنەکانە...";
+    download(
+      item.blob,
+      item.name
+    );
 
 
-    for (
-      const image
-      of processedImages
-    ) {
-
-      downloadBlob(
-        image.blob,
-        image.name
-      );
-
-
-      await new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            500
-          )
-      );
-
-    }
-
-
-    status.textContent =
-      "هەموو وێنەکان دابەزێنرا ✅";
+    await new Promise(
+      r=>setTimeout(r,600)
+    );
 
   }
-);
+
+
+  status.textContent =
+    "هەموو وێنەکان دابەزێنرا ✅";
+
+};
 
 </script>
 
