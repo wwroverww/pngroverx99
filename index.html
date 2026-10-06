@@ -99,24 +99,38 @@
             if (!file) return;
 
             statusMsg.style.color = '#c084fc';
-            statusMsg.textContent = 'سەرقاڵی ئامادەکردنی: ' + file.name;
+            statusMsg.textContent = 'سەرقاڵی گۆڕینی وێنەکە بۆ PNG...';
 
             const reader = new FileReader();
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    canvas.width = img.naturalWidth || img.width;
-                    canvas.height = img.naturalHeight || img.height;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // ڕێگریکردن لە وەستانی براوسەری موبایل بە کەمکردنەوەی قەبارە زۆر گەورەکان
+                    const MAX_SIZE = 1920;
+                    if (width > MAX_SIZE || height > MAX_SIZE) {
+                        if (width > height) {
+                            height = Math.round((height * MAX_SIZE) / width);
+                            width = MAX_SIZE;
+                        } else {
+                            width = Math.round((width * MAX_SIZE) / height);
+                            height = MAX_SIZE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
                     const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
+                    ctx.drawImage(img, 0, 0, width, height);
                     
                     canvas.toBlob(function(blob) {
                         if (blob) {
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
                             a.href = url;
-                            // ناوەکەی دەکاتە PNG
                             const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                             a.download = baseName + '.png';
                             document.body.appendChild(a);
@@ -125,38 +139,21 @@
                             URL.revokeObjectURL(url);
 
                             statusMsg.style.color = '#4ade80';
-                            statusMsg.textContent = 'بە سەرکەوتوویی دابەزێنرا!';
+                            statusMsg.textContent = 'بە سەرکەوتوویی بە PNG دابەزێنرا!';
                         } else {
-                            fallbackDownload(file);
+                            statusMsg.style.color = '#f87171';
+                            statusMsg.textContent = 'نەتوانرا وێنەکە بگۆڕدرێت.';
                         }
-                    }, 'image/png', 1.0);
+                    }, 'image/png');
                 };
                 img.onerror = function() {
                     statusMsg.style.color = '#f87171';
-                    statusMsg.textContent = 'هەڵە لە وێنەکەدا هەیە: ' + file.name;
+                    statusMsg.textContent = 'هەڵە لە خوێندنەوەی وێنەکەدا.';
                 };
                 img.src = event.target.result;
             };
-            reader.onerror = function() {
-                statusMsg.style.color = '#f87171';
-                statusMsg.textContent = 'نەتوانرا فایلەکە بخوێنرێتەوە.';
-            };
             reader.readAsDataURL(file);
         });
-
-        // ڕێگەی جێگرەوە ئەگەر کانڤاس گیرۆدە بوو
-        function fallbackDownload(file) {
-            const url = URL.createObjectURL(file);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = file.name.replace(/\.[^/.]+$/, "") + '.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            statusMsg.style.color = '#4ade80';
-            statusMsg.textContent = 'بە سەرکەوتوویی دابەزێنرا!';
-        }
     </script>
 </body>
 </html>
