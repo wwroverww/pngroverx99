@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erest grocery</title>
+    <title>Erest grocery - BG Cleaner</title>
     <style>
         body {
             margin: 0;
@@ -40,22 +40,27 @@
             margin-bottom: 20px;
         }
         .upload-box {
-            background: #ffffff; /* پشتی سپی پەتی بۆ سندوقەکە */
+            background: #ffffff;
             border: 2px dashed #a855f7;
             border-radius: 14px;
-            padding: 25px 15px;
+            padding: 20px 15px;
             cursor: pointer;
             margin-bottom: 15px;
         }
         .upload-box p {
             margin: 0;
-            color: #111; /* ڕەنگی ڕەش بۆ ئەوەی لەسەر سپی بەڕوونی دیار بێت */
-            font-size: 13px;
+            color: #111;
+            font-size: 12px;
             font-weight: bold;
             line-height: 1.6;
         }
         #fileInput {
             display: none;
+        }
+        #statusMsg {
+            font-size: 11px;
+            margin: 10px 0;
+            color: #4ade80;
         }
         .list-container {
             max-height: 220px;
@@ -76,7 +81,7 @@
         .file-name {
             font-size: 11px;
             color: #fff;
-            max-width: 160px;
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -103,13 +108,14 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">ئامادەکردنی وێنەکان بۆ داونلۆد</div>
+        <div class="subtitle">لابردنی ڕەنگی پشتەوە و سپیکردنی</div>
 
         <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-            <p>📁 وێنەکان لێرە هەڵبژێرە<br><span style="font-size: 10px; color: #555;">(تا ١٠ وێنە بەیەکەوە)</span></p>
+            <p>📁 وێنەکان لێرە هەڵبژێرە<br><span style="font-size: 9px; color: #555;">(پشتیان بە تەواوی پاک دەبێتەوە)</span></p>
             <input type="file" id="fileInput" accept="image/*" multiple>
         </div>
 
+        <div id="statusMsg"></div>
         <div id="fileList" class="list-container"></div>
 
         <div class="footer">دروستکراوی: rover & paiwast</div>
@@ -118,6 +124,7 @@
     <script>
         const fileInput = document.getElementById('fileInput');
         const fileList = document.getElementById('fileList');
+        const statusMsg = document.getElementById('statusMsg');
 
         fileInput.addEventListener('change', function(e) {
             const files = e.target.files;
@@ -125,27 +132,81 @@
 
             fileList.innerHTML = '';
             const limit = Math.min(files.length, 10);
+            statusMsg.textContent = 'وێنەکان پاک دەکرێنەوە...';
+
+            let processed = 0;
 
             for (let i = 0; i < limit; i++) {
                 const file = files[i];
-                const fileUrl = URL.createObjectURL(file);
+                const reader = new FileReader();
 
-                const item = document.createElement('div');
-                item.className = 'file-item';
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
 
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'file-name';
-                nameSpan.textContent = file.name;
+                        // کێشانی وێنەکە سەرەتا لەسەر کەنڤاسەکە
+                        ctx.drawImage(img, 0, 0);
 
-                const btn = document.createElement('a');
-                btn.href = fileUrl;
-                btn.download = file.name;
-                btn.className = 'download-btn';
-                btn.textContent = 'داونلۆد';
+                        // خوێندنەوەی پیکسڵەکانی وێنەکە بۆ لابردنی ڕەنگی پشتەوەی کاڵ/زەرد
+                        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const data = imgData.data;
 
-                item.appendChild(nameSpan);
-                item.appendChild(btn);
-                fileList.appendChild(item);
+                        // پشکنتینی پیکسڵەکان و گۆڕینی ڕەنگە پشتەوەکان بۆ سپی پەتی
+                        for (let p = 0; p < data.length; p += 4) {
+                            let red = data[p];
+                            let green = data[p + 1];
+                            let blue = data[p + 2];
+
+                            // ئەگەر ڕەنگەکە زۆر نزیک بوو لە ڕەنگی زەردی کاڵ یان کرێمی پشتەوە، دەیكاتە سپی
+                            // (R > 200, G > 190, B > 160 نموونەی ڕەنگی پشتەوەی کاڵە)
+                            if (red > 205 && green > 195 && blue > 170) {
+                                data[p] = 255;     // Red -> White
+                                data[p + 1] = 255; // Green -> White
+                                data[p + 2] = 255; // Blue -> White
+                            }
+                        }
+
+                        // گەڕاندنەوەی پیکسڵە دەستکاریکراوەکان بۆ ناو کەنڤاس
+                        ctx.putImageData(imgData, 0, 0);
+
+                        // دروستکردنی فایلی نوی بۆ داونلۆد
+                        canvas.toBlob(function(blob) {
+                            const blobUrl = URL.createObjectURL(blob);
+                            
+                            let cleanName = file.name.substring(0, file.name.lastIndexOf('.'));
+                            if (!cleanName) cleanName = 'image_' + (i + 1);
+                            const finalName = cleanName + '_clean.png';
+
+                            const item = document.createElement('div');
+                            item.className = 'file-item';
+
+                            const nameSpan = document.createElement('span');
+                            nameSpan.className = 'file-name';
+                            nameSpan.textContent = finalName;
+
+                            const btn = document.createElement('a');
+                            btn.href = blobUrl;
+                            btn.download = finalName;
+                            btn.className = 'download-btn';
+                            btn.textContent = 'داونلۆد';
+
+                            item.appendChild(nameSpan);
+                            item.appendChild(btn);
+                            fileList.appendChild(item);
+
+                            processed++;
+                            if (processed === limit) {
+                                statusMsg.textContent = 'هەموو وێنەکان پشتەکەیان پاک بووەوە!';
+                            }
+                        }, 'image/png');
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         });
     </script>
