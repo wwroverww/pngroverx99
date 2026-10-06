@@ -99,28 +99,26 @@
             if (!file) return;
 
             statusMsg.style.color = '#c084fc';
-            statusMsg.textContent = 'سەرقاڵی ئامادەکردنی وێنەکەیە...';
+            statusMsg.textContent = 'سەرقاڵی ئامادەکردنی: ' + file.name;
 
             const reader = new FileReader();
             reader.onload = function(event) {
                 const img = new Image();
                 img.onload = function() {
-                    try {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0);
-                        
-                        canvas.toBlob(function(blob) {
-                            if (!blob) {
-                                throw new Error('Blob creation failed');
-                            }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth || img.width;
+                    canvas.height = img.naturalHeight || img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    canvas.toBlob(function(blob) {
+                        if (blob) {
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
                             a.href = url;
-                            // ناوەکەی دەگۆڕێت بۆ png بە بێ کێشە
-                            a.download = file.name.replace(/\.[^/.]+$/, "") + '.png';
+                            // ناوەکەی دەکاتە PNG
+                            const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                            a.download = baseName + '.png';
                             document.body.appendChild(a);
                             a.click();
                             document.body.removeChild(a);
@@ -128,24 +126,37 @@
 
                             statusMsg.style.color = '#4ade80';
                             statusMsg.textContent = 'بە سەرکەوتوویی دابەزێنرا!';
-                        }, 'image/png');
-                    } catch (err) {
-                        statusMsg.style.color = '#f87171';
-                        statusMsg.textContent = 'هەڵە ڕووی دا لە وێنەی: ' + file.name;
-                    }
+                        } else {
+                            fallbackDownload(file);
+                        }
+                    }, 'image/png', 1.0);
                 };
                 img.onerror = function() {
                     statusMsg.style.color = '#f87171';
-                    statusMsg.textContent = 'نەتوانرا وێنەکە بخوێنرێتەوە: ' + file.name;
+                    statusMsg.textContent = 'هەڵە لە وێنەکەدا هەیە: ' + file.name;
                 };
                 img.src = event.target.result;
             };
             reader.onerror = function() {
                 statusMsg.style.color = '#f87171';
-                statusMsg.textContent = 'هەڵە لە خوێندنەوەی فایلەکەدا.';
+                statusMsg.textContent = 'نەتوانرا فایلەکە بخوێنرێتەوە.';
             };
             reader.readAsDataURL(file);
         });
+
+        // ڕێگەی جێگرەوە ئەگەر کانڤاس گیرۆدە بوو
+        function fallbackDownload(file) {
+            const url = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name.replace(/\.[^/.]+$/, "") + '.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            statusMsg.style.color = '#4ade80';
+            statusMsg.textContent = 'بە سەرکەوتوویی دابەزێنرا!';
+        }
     </script>
 </body>
 </html>
