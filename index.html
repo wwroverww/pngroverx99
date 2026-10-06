@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erest grocery - PNG Converter</title>
+    <title>Erest grocery - Background Removal</title>
     <style>
         body {
             margin: 0;
@@ -42,7 +42,7 @@
         .drop-zone {
             border: 2px dashed rgba(168, 85, 247, 0.4);
             border-radius: 14px;
-            padding: 25px 15px;
+            padding: 20px 15px;
             cursor: pointer;
             transition: 0.3s;
             margin-bottom: 15px;
@@ -61,6 +61,23 @@
         #uploadInput {
             display: none;
         }
+        #downloadBtn {
+            display: none;
+            width: 100%;
+            background: linear-gradient(45deg, #a855f7, #ec4899);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: Tahoma, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            text-decoration: none;
+            box-sizing: border-box;
+        }
         #statusMsg {
             font-size: 11px;
             margin-top: 10px;
@@ -78,70 +95,54 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">وێنە هەڵبژێرە و ڕاستەوخۆ بە PNG دایبەزێنە</div>
+        <div class="subtitle">وێنە هەڵبژێرە و ڕاستەوخۆ پاشبنەماکەی لادەبرێت و دابەزێت</div>
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنەکان لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(ڕاستەوخۆ دەگۆڕدرێت و دابەزێت)</span></p>
-            <input type="file" id="uploadInput" accept="image/png, image/jpeg, image/jpg">
+            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(لابردنی پشتبنەما بە PNG)</span></p>
+            <input type="file" id="uploadInput" accept="image/*">
         </div>
 
         <div id="statusMsg"></div>
         
+        <a id="downloadBtn" href="#" download="transparent.png">داونلۆدکردنی PNG بێ پشتبنەما 📥</a>
+
         <div class="footer">دروستکراوی: rover & paiwast</div>
     </div>
 
-    <script>
+    <!-- بەستەری کتێبخانەی زیرەک بۆ لابردنی پشتبنەما لەناو براوسەردا -->
+    <script type="module">
+        import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.7/+esm';
+
         const fileInput = document.getElementById('uploadInput');
         const statusMsg = document.getElementById('statusMsg');
+        const downloadBtn = document.getElementById('downloadBtn');
 
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
             statusMsg.style.color = '#c084fc';
-            statusMsg.textContent = 'سەرقاڵی گۆڕینی وێنەکە بۆ PNG...';
+            statusMsg.textContent = 'سەرقاڵی لابردنی پشتبنەمایە (تکایە چەند چرکەیەک چاوەڕێ بکە)...';
+            downloadBtn.style.display = 'none';
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    
-                    // دڵنیابوونەوە لەوەی بە فۆرماتی PNG دەردەچێت
-                    canvas.toBlob(function(blob) {
-                        if (blob) {
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            
-                            const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                            a.download = baseName + '.png';
-                            
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            URL.revokeObjectURL(url);
+            try {
+                // لابردنی پشتبنەمای وێنەکە بە شێوەیەکی زیرەک و گۆڕینی بۆ PNG
+                const blob = await removeBackground(file);
+                
+                const url = URL.createObjectURL(blob);
+                const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                
+                downloadBtn.href = url;
+                downloadBtn.download = baseName + '_no_bg.png';
+                downloadBtn.style.display = 'block';
 
-                            statusMsg.style.color = '#4ade80';
-                            statusMsg.textContent = 'بە سەرکەوتوویی بە PNG داگیرا!';
-                        } else {
-                            statusMsg.style.color = '#f87171';
-                            statusMsg.textContent = 'هەڵە لە دروستکردنی فایلی PNG.';
-                        }
-                    }, 'image/png');
-                };
-                img.onerror = function() {
-                    statusMsg.style.color = '#f87171';
-                    statusMsg.textContent = 'فۆرماتی وێنەکە پشتگیری ناکرێت (تکایە JPG تاقی بکەرەوە)';
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
+                statusMsg.style.color = '#4ade80';
+                statusMsg.textContent = 'بە سەرکەوتوویی پشتبنەما لادرا و ئامادەیە!';
+            } catch (err) {
+                console.error(err);
+                statusMsg.style.color = '#f87171';
+                statusMsg.textContent = 'هەڵە ڕوویدا لە لابردنی پشتبنەما.';
+            }
         });
     </script>
 </body>
