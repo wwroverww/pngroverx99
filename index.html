@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erest grocery - PNG Converter with White Background</title>
+    <title>Erest grocery - White Background</title>
     <style>
         body {
             margin: 0;
@@ -105,10 +105,10 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">هەڵبژاردنی تا ١٠ وێنە + پشتی سپی + PNG</div>
+        <div class="subtitle">گۆڕینی پشتی وێنە بۆ سپی (تا ١٠ دانە)</div>
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنەکان لێرە دابنی (تا ١٠ دانە)<br><span style="font-size: 10px; color: #888;">پشتیان ڕاستەوخۆ دەبێتە سپی</span></p>
+            <p>وێنەکان لێرە دابنی (تا ١٠ دانە)<br><span style="font-size: 10px; color: #888;">پشتیان دەبێتە سپی پەتی</span></p>
             <input type="file" id="uploadInput" accept="image/*" multiple>
         </div>
 
@@ -143,38 +143,35 @@
                 reader.onload = function(event) {
                     const img = new Image();
                     img.onload = function() {
-                        // دروستکردنی کەنڤاس بۆ لابردنی پشتم و دانانی پشتی سپی
                         const canvas = document.createElement('canvas');
                         canvas.width = img.width;
                         canvas.height = img.height;
                         const ctx = canvas.getContext('2d');
 
                         // پڕکردنەوەی پشتم بە ڕەنگی سپی پەتی (#FFFFFF)
-                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillStyle = "#FFFFFF";
                         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                        // کێشانی وێنەکە لەسەر پشتی سپیەکە
+                        // کێشانی وێنەکە بەسەر پشتە سپییەکەدا
                         ctx.drawImage(img, 0, 0);
 
-                        // گۆڕینی بۆ لینکی PNG
-                        canvas.toBlob(function(blob) {
-                            const blobUrl = URL.createObjectURL(blob);
-                            
-                            const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image_' + (i + 1);
-                            
-                            const btn = document.createElement('a');
-                            btn.href = blobUrl;
-                            btn.download = baseName + '_white.png';
-                            btn.className = 'download-btn';
-                            btn.textContent = '📥 داونلۆدی پاک: ' + file.name;
-                            
-                            downloadList.appendChild(btn);
+                        // بەکارهێنانی روشی base64 بۆ دڵنیابوون لەوەی وێنەکە دەگۆڕێت بۆ PNG
+                        const dataUrl = canvas.toDataURL('image/png');
 
-                            processedCount++;
-                            if (processedCount === count) {
-                                statusMsg.textContent = count + ' وێنە بە سەرکەوتوویی ئامادە بوون!';
-                            }
-                        }, 'image/png');
+                        const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image_' + (i + 1);
+                        
+                        const btn = document.createElement('a');
+                        btn.href = dataUrl;
+                        btn.download = baseName + '_white.png';
+                        btn.className = 'download-btn';
+                        btn.textContent = '📥 داونلۆدی پشتی سپی: ' + file.name;
+                        
+                        downloadList.appendChild(btn);
+
+                        processedCount++;
+                        if (processedCount === count) {
+                            statusMsg.textContent = count + ' وێنە بە سەرکەوتوویی پشتیان سپی کرا!';
+                        }
                     };
                     img.src = event.target.result;
                 };
