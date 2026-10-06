@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erest grocery</title>
+    <title>Erest grocery  </title>
     <style>
         body {
             margin: 0;
@@ -14,7 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
         }
         .card {
             background: rgba(255, 255, 255, 0.05);
@@ -22,11 +22,10 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
             width: 330px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin: 20px 0;
         }
         h1 {
             font-size: 22px;
@@ -62,36 +61,28 @@
         #uploadInput {
             display: none;
         }
+        #downloadBtn {
+            display: none;
+            width: 100%;
+            background: linear-gradient(45deg, #a855f7, #ec4899);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: Tahoma, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            text-decoration: none;
+            box-sizing: border-box;
+        }
         #statusMsg {
             font-size: 11px;
             margin-top: 10px;
             min-height: 15px;
             color: #4ade80;
-        }
-        .download-list {
-            max-height: 180px;
-            overflow-y: auto;
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .download-btn {
-            display: block;
-            width: 100%;
-            background: linear-gradient(45deg, #a855f7, #ec4899);
-            color: white;
-            border: none;
-            padding: 11px;
-            border-radius: 12px;
-            font-family: Tahoma, sans-serif;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            box-sizing: border-box;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
         }
         .footer {
             margin-top: 25px;
@@ -105,16 +96,16 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">وێنە هەڵبژێرە (تا ١٠ وێنە) و دایانبەزێنە</div>
+        <div class="subtitle">وێنە هەڵبژێرە و ڕاستەوخۆ بە PNG دایبەزێنە</div>
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(دەتوانیت چەند وێنەیەک هەڵبژێریت)</span></p>
-            <input type="file" id="uploadInput" accept="image/*" multiple>
+            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(بۆ گۆڕینی فۆرمات)</span></p>
+            <input type="file" id="uploadInput" accept="image/*">
         </div>
 
         <div id="statusMsg"></div>
         
-        <div id="downloadList" class="download-list"></div>
+        <a id="downloadBtn" href="#" download="erest_image.png">داونلۆدکردنی PNG 📥</a>
 
         <div class="footer">دروستکراوی: rover & paiwast</div>
     </div>
@@ -122,32 +113,22 @@
     <script>
         const fileInput = document.getElementById('uploadInput');
         const statusMsg = document.getElementById('statusMsg');
-        const downloadList = document.getElementById('downloadList');
+        const downloadBtn = document.getElementById('downloadBtn');
 
         fileInput.addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (!files.length) return;
+            const file = e.target.files[0];
+            if (!file) return;
 
-            downloadList.innerHTML = '';
+            statusMsg.textContent = 'وێنەکە ئامادە کرا!';
             
-            // سنوردارکردنی ژمارەکە بۆ زۆرترین ١٠ وێنە لە یەک جاردا
-            const count = Math.min(files.length, 10);
-            statusMsg.textContent = count + ' وێنە ئامادە کران!';
-
-            for (let i = 0; i < count; i++) {
-                const file = files[i];
-                const fileURL = URL.createObjectURL(file);
-                
-                const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image_' + (i + 1);
-                
-                const btn = document.createElement('a');
-                btn.href = fileURL;
-                btn.download = baseName + '.png';
-                btn.className = 'download-btn';
-                btn.textContent = '📥 داونلۆدی: ' + file.name;
-                
-                downloadList.appendChild(btn);
-            }
+            // دروستکردنی لینکی ڕاستەوخۆ بۆ فایلەکە بە فۆرماتی PNG
+            const fileURL = URL.createObjectURL(file);
+            downloadBtn.href = fileURL;
+            
+            const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image';
+            downloadBtn.download = baseName + '.png';
+            
+            downloadBtn.style.display = 'block';
         });
     </script>
 </body>
