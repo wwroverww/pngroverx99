@@ -82,7 +82,7 @@
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
             <p>وێنەکان لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(ڕاستەوخۆ دەگۆڕدرێت و دابەزێت)</span></p>
-            <input type="file" id="uploadInput" accept="image/*">
+            <input type="file" id="uploadInput" accept="image/png, image/jpeg, image/jpg">
         </div>
 
         <div id="statusMsg"></div>
@@ -106,49 +106,38 @@
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
+                    canvas.width = img.width;
+                    canvas.height = img.height;
                     
-                    // ڕێگریکردن لە وەستانی براوسەری موبایل بە کەمکردنەوەی قەبارە زۆر گەورەکان
-                    const MAX_SIZE = 1920;
-                    if (width > MAX_SIZE || height > MAX_SIZE) {
-                        if (width > height) {
-                            height = Math.round((height * MAX_SIZE) / width);
-                            width = MAX_SIZE;
-                        } else {
-                            width = Math.round((width * MAX_SIZE) / height);
-                            height = MAX_SIZE;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
                     const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
+                    ctx.drawImage(img, 0, 0);
                     
+                    // دڵنیابوونەوە لەوەی بە فۆرماتی PNG دەردەچێت
                     canvas.toBlob(function(blob) {
                         if (blob) {
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
                             a.href = url;
+                            
                             const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
                             a.download = baseName + '.png';
+                            
                             document.body.appendChild(a);
                             a.click();
                             document.body.removeChild(a);
                             URL.revokeObjectURL(url);
 
                             statusMsg.style.color = '#4ade80';
-                            statusMsg.textContent = 'بە سەرکەوتوویی بە PNG دابەزێنرا!';
+                            statusMsg.textContent = 'بە سەرکەوتوویی بە PNG داگیرا!';
                         } else {
                             statusMsg.style.color = '#f87171';
-                            statusMsg.textContent = 'نەتوانرا وێنەکە بگۆڕدرێت.';
+                            statusMsg.textContent = 'هەڵە لە دروستکردنی فایلی PNG.';
                         }
                     }, 'image/png');
                 };
                 img.onerror = function() {
                     statusMsg.style.color = '#f87171';
-                    statusMsg.textContent = 'هەڵە لە خوێندنەوەی وێنەکەدا.';
+                    statusMsg.textContent = 'فۆرماتی وێنەکە پشتگیری ناکرێت (تکایە JPG تاقی بکەرەوە)';
                 };
                 img.src = event.target.result;
             };
