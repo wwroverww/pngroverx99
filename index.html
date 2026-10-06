@@ -82,16 +82,16 @@
             background: linear-gradient(45deg, #a855f7, #ec4899);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 11px;
+            border-radius: 12px;
             font-family: Tahoma, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             box-sizing: border-box;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
         }
         .footer {
             margin-top: 25px;
@@ -105,17 +105,15 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">چەند وێنەیەک هەڵبژێرە (تا ١٠ وێنە) و دایانبەزێنە</div>
+        <div class="subtitle">وێنە هەڵبژێرە (تا ١٠ وێنە) و دایانبەزێنە</div>
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنەکان لێرە دابنی یان کلیک بکە<br><span style="font-size: 10px; color: #888;">(دەتوانیت چەند وێنەیەک بەیەکەوە هەڵبژێریت)</span></p>
-            <!-- زیادکردنی تایبەتمەندی multiple بۆ هەڵبژاردنی چەند وێنەیەک -->
+            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(دەتوانیت چەند وێنەیەک هەڵبژێریت)</span></p>
             <input type="file" id="uploadInput" accept="image/*" multiple>
         </div>
 
         <div id="statusMsg"></div>
         
-        <!-- پێڕستی دگمەکانی داونلۆد بۆ هەموو وێنەکان -->
         <div id="downloadList" class="download-list"></div>
 
         <div class="footer">دروستکراوی: rover & paiwast</div>
@@ -132,7 +130,7 @@
 
             downloadList.innerHTML = '';
             
-            // سنوردارکردنی ژمارەی وێنەکان بۆ زۆرترین ١٠ وێنە لە یەک جاردا
+            // سنوردارکردنی ژمارەکە بۆ زۆرترین ١٠ وێنە لە یەک جاردا
             const count = Math.min(files.length, 10);
             statusMsg.textContent = count + ' وێنە ئامادە کران!';
 
