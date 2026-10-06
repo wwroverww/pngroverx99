@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erest grocery - Background Removal</title>
+    <title>Erest grocery</title>
     <style>
         body {
             margin: 0;
@@ -82,6 +82,7 @@
             font-size: 11px;
             margin-top: 10px;
             min-height: 15px;
+            color: #4ade80;
         }
         .footer {
             margin-top: 25px;
@@ -95,54 +96,39 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">وێنە هەڵبژێرە و ڕاستەوخۆ پاشبنەماکەی لادەبرێت و دابەزێت</div>
+        <div class="subtitle">وێنە هەڵبژێرە و ڕاستەوخۆ بە PNG دایبەزێنە</div>
 
         <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(لابردنی پشتبنەما بە PNG)</span></p>
+            <p>وێنە لێرە دابنی یان کلیک بکە بۆ هەڵبژاردن<br><span style="font-size: 10px; color: #888;">(بۆ گۆڕینی فۆرمات)</span></p>
             <input type="file" id="uploadInput" accept="image/*">
         </div>
 
         <div id="statusMsg"></div>
         
-        <a id="downloadBtn" href="#" download="transparent.png">داونلۆدکردنی PNG بێ پشتبنەما 📥</a>
+        <a id="downloadBtn" href="#" download="erest_image.png">داونلۆدکردنی PNG 📥</a>
 
         <div class="footer">دروستکراوی: rover & paiwast</div>
     </div>
 
-    <!-- بەستەری کتێبخانەی زیرەک بۆ لابردنی پشتبنەما لەناو براوسەردا -->
-    <script type="module">
-        import { removeBackground } from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.7/+esm';
-
+    <script>
         const fileInput = document.getElementById('uploadInput');
         const statusMsg = document.getElementById('statusMsg');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        fileInput.addEventListener('change', async function(e) {
+        fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
-            statusMsg.style.color = '#c084fc';
-            statusMsg.textContent = 'سەرقاڵی لابردنی پشتبنەمایە (تکایە چەند چرکەیەک چاوەڕێ بکە)...';
-            downloadBtn.style.display = 'none';
-
-            try {
-                // لابردنی پشتبنەمای وێنەکە بە شێوەیەکی زیرەک و گۆڕینی بۆ PNG
-                const blob = await removeBackground(file);
-                
-                const url = URL.createObjectURL(blob);
-                const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-                
-                downloadBtn.href = url;
-                downloadBtn.download = baseName + '_no_bg.png';
-                downloadBtn.style.display = 'block';
-
-                statusMsg.style.color = '#4ade80';
-                statusMsg.textContent = 'بە سەرکەوتوویی پشتبنەما لادرا و ئامادەیە!';
-            } catch (err) {
-                console.error(err);
-                statusMsg.style.color = '#f87171';
-                statusMsg.textContent = 'هەڵە ڕوویدا لە لابردنی پشتبنەما.';
-            }
+            statusMsg.textContent = 'وێنەکە ئامادە کرا!';
+            
+            // دروستکردنی لینکی ڕاستەوخۆ بۆ فایلەکە بە فۆرماتی PNG
+            const fileURL = URL.createObjectURL(file);
+            downloadBtn.href = fileURL;
+            
+            const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'image';
+            downloadBtn.download = baseName + '.png';
+            
+            downloadBtn.style.display = 'block';
         });
     </script>
 </body>
