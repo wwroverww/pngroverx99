@@ -1,407 +1,1067 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Erest Grocery — PNG</title>
+  <meta charset="UTF-8">
 
-<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/dist/browser.js"></script>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<style>
-*{box-sizing:border-box}
+  <title>Erest Grocery - PNG</title>
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#090a12;
-color:white;
-min-height:100vh;
-padding:40px 16px;
-}
+  <style>
 
-.card{
-max-width:740px;
-margin:auto;
-background:#171820;
-border:1px solid #343640;
-border-radius:28px;
-padding:38px 30px;
-text-align:center;
-box-shadow:0 20px 60px #0008;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-h1{
-margin:0;
-font-size:38px;
-color:#bd55dc;
-font-weight:800;
-direction:ltr;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
 
-.subtitle{
-color:#aaa;
-font-size:17px;
-margin:12px 0 28px;
-}
+      font-family:
+        Arial,
+        "Noto Sans Arabic",
+        sans-serif;
 
-.upload{
-display:block;
-background:white;
-color:#111;
-border:4px dashed #a64de0;
-border-radius:25px;
-padding:42px 20px;
-cursor:pointer;
-font-size:21px;
-font-weight:bold;
-transition:.2s;
-}
+      background: #080910;
+      color: white;
 
-.upload:hover{
-background:#fafafa;
-transform:scale(1.01);
-}
+      padding: 35px 15px;
+    }
 
-.upload small{
-display:block;
-font-size:15px;
-color:#777;
-margin-top:10px;
-}
+    .container {
+      width: 100%;
+      max-width: 760px;
+      margin: auto;
+    }
 
-input{display:none}
+    .card {
+      background: #17181f;
 
-#status{
-margin:22px 0;
-color:#d65ee8;
-font-weight:bold;
-}
+      border: 1px solid #343640;
 
-button{
-border:0;
-border-radius:13px;
-padding:13px 22px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-margin:5px;
-background:#bd55dc;
-color:white;
-}
+      border-radius: 28px;
 
-button:disabled{
-opacity:.4;
-cursor:not-allowed;
-}
+      padding: 35px 25px;
 
-.downloadAll{
-background:#20a85a;
-}
+      text-align: center;
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-margin-top:25px;
-}
+      box-shadow:
+        0 20px 70px rgba(0,0,0,.35);
+    }
 
-.item{
-background:#292a32;
-border-radius:18px;
-padding:14px;
-}
+    .logo {
+      direction: ltr;
 
-.item img{
-width:100%;
-height:220px;
-object-fit:contain;
-background:white;
-border-radius:12px;
-}
+      font-size: 40px;
 
-.item button{
-width:100%;
-margin:10px 0 0;
-}
+      font-weight: 800;
 
-.name{
-font-size:13px;
-color:#bbb;
-margin:8px 0;
-word-break:break-all;
-}
+      color: #c45be1;
 
-.footer{
-margin-top:35px;
-color:#777;
-font-size:15px;
-direction:ltr;
-}
+      margin-bottom: 10px;
+    }
 
-@media(max-width:600px){
-.card{
-padding:30px 18px;
-}
+    .subtitle {
+      color: #bcbcc2;
 
-h1{
-font-size:32px;
-}
+      font-size: 17px;
 
-.grid{
-grid-template-columns:1fr;
-}
-}
-</style>
+      margin-bottom: 30px;
+    }
+
+    .upload-box {
+
+      display: block;
+
+      background: white;
+
+      color: #111;
+
+      border: 4px dashed #b14ddd;
+
+      border-radius: 25px;
+
+      padding: 38px 15px;
+
+      cursor: pointer;
+
+      transition: .2s;
+
+    }
+
+    .upload-box:hover {
+      transform: scale(1.01);
+    }
+
+    .upload-title {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .upload-subtitle {
+      margin-top: 10px;
+
+      font-size: 15px;
+
+      color: #777;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    #status {
+
+      margin-top: 22px;
+
+      color: #d55be5;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      min-height: 25px;
+    }
+
+    .buttons {
+
+      margin-top: 10px;
+
+      display: flex;
+
+      justify-content: center;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+    }
+
+    button {
+
+      border: 0;
+
+      border-radius: 12px;
+
+      padding: 13px 22px;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      color: white;
+
+      background: #b94fda;
+
+    }
+
+    button:disabled {
+
+      opacity: .35;
+
+      cursor: not-allowed;
+
+    }
+
+    #downloadAll {
+
+      background: #159447;
+
+    }
+
+    .progress {
+
+      width: 100%;
+
+      height: 8px;
+
+      background: #292a31;
+
+      border-radius: 20px;
+
+      margin-top: 20px;
+
+      overflow: hidden;
+
+      display: none;
+    }
+
+    .progress-bar {
+
+      height: 100%;
+
+      width: 0%;
+
+      background: #bd55dc;
+
+      transition: width .3s;
+    }
+
+    #results {
+
+      margin-top: 25px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 15px;
+    }
+
+    .result {
+
+      background: #282930;
+
+      border-radius: 18px;
+
+      padding: 12px;
+    }
+
+    .result img {
+
+      width: 100%;
+
+      height: 230px;
+
+      object-fit: contain;
+
+      background: white;
+
+      border-radius: 12px;
+
+      display: block;
+    }
+
+    .filename {
+
+      color: #bdbdc4;
+
+      font-size: 13px;
+
+      margin: 9px 0;
+
+      word-break: break-all;
+
+      direction: ltr;
+    }
+
+    .download-one {
+
+      width: 100%;
+
+      background: #b94fda;
+    }
+
+    .footer {
+
+      margin-top: 30px;
+
+      color: #777;
+
+      font-size: 14px;
+
+      direction: ltr;
+    }
+
+    @media (max-width: 600px) {
+
+      body {
+        padding: 20px 10px;
+      }
+
+      .card {
+        padding: 28px 15px;
+      }
+
+      .logo {
+        font-size: 32px;
+      }
+
+      #results {
+        grid-template-columns: 1fr;
+      }
+
+      .result img {
+        height: 280px;
+      }
+
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
-<div class="card">
+  <div class="container">
 
-<h1>Erest grocery</h1>
+    <div class="card">
 
-<div class="subtitle">
-وێنەکەت بکە بە پشتی سپی
-</div>
+      <div class="logo">
+        Erest grocery
+      </div>
 
-<label class="upload">
-📁 وێنەکان لێرە هەڵبژێرە
-<small>(تا ١٠ وێنە یەکجار)</small>
-
-<input
-id="fileInput"
-type="file"
-accept="image/*"
-multiple
->
-
-</label>
-
-<div id="status">
-هیچ وێنەیەک هەڵنەبژێردراوە
-</div>
-
-<button id="processBtn" disabled>
-✨ سڕینەوەی پشتەوە
-</button>
-
-<button id="downloadAll" class="downloadAll" disabled>
-⬇️ هەمووی دابەزێنە
-</button>
-
-<div id="results" class="grid"></div>
-
-<div class="footer">
-rover & paiwast
-</div>
-
-</div>
-
-<script>
-
-const input=document.getElementById("fileInput");
-const processBtn=document.getElementById("processBtn");
-const downloadAllBtn=document.getElementById("downloadAll");
-const status=document.getElementById("status");
-const results=document.getElementById("results");
-
-let files=[];
-let processed=[];
+      <div class="subtitle">
+        وێنەکەت بکە بە پشتی سپی
+      </div>
 
 
-input.addEventListener("change",()=>{
+      <!-- UPLOAD -->
 
-files=Array.from(input.files).slice(0,10);
+      <label
+        class="upload-box"
+        for="fileInput"
+      >
 
-processed=[];
-results.innerHTML="";
-downloadAllBtn.disabled=true;
+        <div class="upload-title">
+          📁 وێنەکان لێرە هەڵبژێرە
+        </div>
 
-if(!files.length){
+        <div class="upload-subtitle">
+          تا ١٠ وێنە یەکجار
+        </div>
 
-status.textContent="هیچ وێنەیەک هەڵنەبژێردراوە";
-processBtn.disabled=true;
-return;
+      </label>
 
-}
-
-status.textContent=`${files.length} وێنە هەڵبژێردراوە ✅`;
-processBtn.disabled=false;
-
-});
-
-
-processBtn.addEventListener("click",async()=>{
-
-processBtn.disabled=true;
-downloadAllBtn.disabled=true;
-processed=[];
-results.innerHTML="";
-
-for(let i=0;i<files.length;i++){
-
-const file=files[i];
-
-status.textContent=
-`خەریکی کارکردنە... ${i+1} / ${files.length}`;
-
-try{
-
-/*
-سڕینەوەی پشتەوە
-*/
-const transparent=
-await imglyRemoveBackground(file);
-
-/*
-دانانی پشتی سپی
-*/
-const whitePNG=
-await whiteBackground(transparent);
-
-const url=URL.createObjectURL(whitePNG);
-
-const box=document.createElement("div");
-box.className="item";
-
-const image=document.createElement("img");
-image.src=url;
-
-const filename=
-file.name.replace(/\.[^/.]+$/,"")+".png";
-
-const name=document.createElement("div");
-name.className="name";
-name.textContent=filename;
-
-const download=document.createElement("button");
-download.textContent="⬇️ Download PNG";
-
-download.onclick=()=>{
-downloadBlob(whitePNG,filename);
-};
-
-box.appendChild(image);
-box.appendChild(name);
-box.appendChild(download);
-
-results.appendChild(box);
-
-processed.push({
-blob:whitePNG,
-name:filename
-});
-
-}catch(error){
-
-console.error(error);
-
-status.textContent=
-`هەڵەیەک ڕوویدا لە وێنەی ${i+1}`;
-
-}
-
-}
-
-status.textContent=
-`تەواو بوو ✅ ${processed.length} وێنە`;
-
-processBtn.disabled=false;
-
-if(processed.length){
-downloadAllBtn.disabled=false;
-}
-
-});
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        multiple
+      >
 
 
-async function whiteBackground(blob){
+      <!-- STATUS -->
 
-const url=URL.createObjectURL(blob);
-const image=new Image();
+      <div id="status">
+        هیچ وێنەیەک هەڵنەبژێردراوە
+      </div>
 
-await new Promise((resolve,reject)=>{
 
-image.onload=resolve;
-image.onerror=reject;
-image.src=url;
+      <!-- BUTTONS -->
 
-});
+      <div class="buttons">
 
-const canvas=document.createElement("canvas");
+        <button
+          id="processButton"
+          disabled
+        >
+          ✨ سڕینەوەی پشتەوە
+        </button>
 
-canvas.width=image.naturalWidth;
-canvas.height=image.naturalHeight;
 
-const ctx=canvas.getContext("2d");
+        <button
+          id="downloadAll"
+          disabled
+        >
+          ⬇️ هەمووی دابەزێنە
+        </button>
+
+      </div>
+
+
+      <!-- PROGRESS -->
+
+      <div
+        id="progress"
+        class="progress"
+      >
+
+        <div
+          id="progressBar"
+          class="progress-bar"
+        ></div>
+
+      </div>
+
+
+      <!-- RESULTS -->
+
+      <div id="results"></div>
+
+
+      <div class="footer">
+        rover & paiwast
+      </div>
+
+    </div>
+
+  </div>
+
+
+<script type="module">
 
 /*
-پشتی سپی
+====================================================
+  BACKGROUND REMOVAL LIBRARY
+====================================================
 */
-ctx.fillStyle="#ffffff";
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+
+import {
+  removeBackground
+} from
+"https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm";
+
 
 /*
-وێنەی بێ پشتەوە
+====================================================
+  ELEMENTS
+====================================================
 */
-ctx.drawImage(image,0,0);
 
-URL.revokeObjectURL(url);
+const fileInput =
+  document.getElementById("fileInput");
 
-return new Promise(resolve=>{
+const processButton =
+  document.getElementById("processButton");
 
-canvas.toBlob(
-blob=>resolve(blob),
-"image/png",
-1
+const downloadAllButton =
+  document.getElementById("downloadAll");
+
+const status =
+  document.getElementById("status");
+
+const results =
+  document.getElementById("results");
+
+const progress =
+  document.getElementById("progress");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+
+/*
+====================================================
+  VARIABLES
+====================================================
+*/
+
+let selectedFiles = [];
+
+let processedImages = [];
+
+
+/*
+====================================================
+  SELECT IMAGES
+====================================================
+*/
+
+fileInput.addEventListener(
+  "change",
+  function () {
+
+    selectedFiles =
+      Array.from(
+        fileInput.files
+      ).slice(0, 10);
+
+
+    processedImages = [];
+
+    results.innerHTML = "";
+
+    downloadAllButton.disabled = true;
+
+
+    if (
+      selectedFiles.length === 0
+    ) {
+
+      processButton.disabled = true;
+
+      status.textContent =
+        "هیچ وێنەیەک هەڵنەبژێردراوە";
+
+      return;
+    }
+
+
+    processButton.disabled = false;
+
+
+    status.textContent =
+      selectedFiles.length +
+      " وێنە هەڵبژێردراوە ✅";
+
+  }
 );
 
-});
+
+/*
+====================================================
+  PROCESS BUTTON
+====================================================
+*/
+
+processButton.addEventListener(
+  "click",
+  processImages
+);
+
+
+async function processImages() {
+
+  if (
+    selectedFiles.length === 0
+  ) {
+    return;
+  }
+
+
+  processButton.disabled = true;
+
+  downloadAllButton.disabled = true;
+
+  results.innerHTML = "";
+
+  processedImages = [];
+
+
+  progress.style.display =
+    "block";
+
+
+  /*
+  ----------------------------------------------
+  PROCESS EACH IMAGE
+  ----------------------------------------------
+  */
+
+  for (
+    let i = 0;
+    i < selectedFiles.length;
+    i++
+  ) {
+
+    const file =
+      selectedFiles[i];
+
+
+    status.textContent =
+      "خەریکی سڕینەوەی پشتەوەی وێنەی " +
+      (i + 1) +
+      " لە " +
+      selectedFiles.length +
+      "...";
+
+
+    progressBar.style.width =
+      (
+        (i /
+          selectedFiles.length) *
+        100
+      ) + "%";
+
+
+    try {
+
+
+      /*
+      ------------------------------------------
+      REMOVE BACKGROUND
+      ------------------------------------------
+      */
+
+      const transparentBlob =
+        await removeBackground(
+          file,
+          {
+
+            output: {
+
+              format: "image/png",
+
+              quality: 1
+
+            },
+
+            progress:
+              (
+                key,
+                current,
+                total
+              ) => {
+
+                if (
+                  key ===
+                  "compute:inference"
+                ) {
+
+                  status.textContent =
+                    "AI خەریکی سڕینەوەی پشتەوەیە...";
+
+                }
+
+              }
+
+          }
+        );
+
+
+      /*
+      ------------------------------------------
+      ADD WHITE BACKGROUND
+      ------------------------------------------
+      */
+
+      const finalPNG =
+        await addWhiteBackground(
+          transparentBlob
+        );
+
+
+      /*
+      ------------------------------------------
+      FILE NAME
+      ------------------------------------------
+      */
+
+      const cleanName =
+        file.name
+          .replace(
+            /\.[^/.]+$/,
+            ""
+          );
+
+
+      const finalName =
+        cleanName +
+        ".png";
+
+
+      /*
+      ------------------------------------------
+      CREATE PREVIEW
+      ------------------------------------------
+      */
+
+      const imageURL =
+        URL.createObjectURL(
+          finalPNG
+        );
+
+
+      createResult(
+        imageURL,
+        finalPNG,
+        finalName
+      );
+
+
+      /*
+      ------------------------------------------
+      SAVE
+      ------------------------------------------
+      */
+
+      processedImages.push({
+
+        blob: finalPNG,
+
+        name: finalName
+
+      });
+
+
+    }
+    catch (error) {
+
+      console.error(
+        "Background removal error:",
+        error
+      );
+
+
+      const errorBox =
+        document.createElement(
+          "div"
+        );
+
+      errorBox.style.color =
+        "#ff6b6b";
+
+      errorBox.style.padding =
+        "10px";
+
+
+      errorBox.textContent =
+        "❌ وێنەی " +
+        (i + 1) +
+        " نەکرا";
+
+
+      results.appendChild(
+        errorBox
+      );
+
+    }
+
+  }
+
+
+  /*
+  ----------------------------------------------
+  COMPLETE
+  ----------------------------------------------
+  */
+
+  progressBar.style.width =
+    "100%";
+
+
+  if (
+    processedImages.length > 0
+  ) {
+
+    status.textContent =
+      "تەواو بوو ✅ " +
+      processedImages.length +
+      " وێنە";
+
+    downloadAllButton.disabled =
+      false;
+
+  }
+  else {
+
+    status.textContent =
+      "هیچ وێنەیەک نەکرا ❌";
+
+  }
+
+
+  processButton.disabled =
+    false;
 
 }
 
 
-function downloadBlob(blob,name){
+/*
+====================================================
+  ADD WHITE BACKGROUND
+====================================================
+*/
 
-const url=URL.createObjectURL(blob);
+async function addWhiteBackground(
+  transparentBlob
+) {
 
-const a=document.createElement("a");
+  const imageURL =
+    URL.createObjectURL(
+      transparentBlob
+    );
 
-a.href=url;
-a.download=name;
 
-document.body.appendChild(a);
-a.click();
-a.remove();
+  const image =
+    new Image();
 
-setTimeout(()=>{
-URL.revokeObjectURL(url);
-},1000);
+
+  await new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      image.onload =
+        resolve;
+
+      image.onerror =
+        reject;
+
+      image.src =
+        imageURL;
+
+    }
+  );
+
+
+  /*
+  ----------------------------------------------
+  CANVAS
+  ----------------------------------------------
+  */
+
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    image.naturalWidth;
+
+  canvas.height =
+    image.naturalHeight;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  /*
+  ----------------------------------------------
+  WHITE BACKGROUND
+  ----------------------------------------------
+  */
+
+  ctx.fillStyle =
+    "#ffffff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  /*
+  ----------------------------------------------
+  PUT CUTOUT ON WHITE
+  ----------------------------------------------
+  */
+
+  ctx.drawImage(
+    image,
+    0,
+    0
+  );
+
+
+  URL.revokeObjectURL(
+    imageURL
+  );
+
+
+  /*
+  ----------------------------------------------
+  EXPORT PNG
+  ----------------------------------------------
+  */
+
+  return await new Promise(
+    resolve => {
+
+      canvas.toBlob(
+        blob => {
+
+          resolve(blob);
+
+        },
+        "image/png",
+        1
+      );
+
+    }
+  );
 
 }
 
 
-downloadAllBtn.addEventListener("click",async()=>{
+/*
+====================================================
+  CREATE RESULT CARD
+====================================================
+*/
 
-for(const item of processed){
+function createResult(
+  imageURL,
+  blob,
+  filename
+) {
 
-downloadBlob(
-item.blob,
-item.name
-);
+  const box =
+    document.createElement(
+      "div"
+    );
 
-await new Promise(
-resolve=>setTimeout(resolve,500)
-);
+  box.className =
+    "result";
+
+
+  const image =
+    document.createElement(
+      "img"
+    );
+
+  image.src =
+    imageURL;
+
+
+  const name =
+    document.createElement(
+      "div"
+    );
+
+  name.className =
+    "filename";
+
+  name.textContent =
+    filename;
+
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+  button.className =
+    "download-one";
+
+  button.textContent =
+    "⬇️ Download PNG";
+
+
+  button.addEventListener(
+    "click",
+    function () {
+
+      downloadBlob(
+        blob,
+        filename
+      );
+
+    }
+  );
+
+
+  box.appendChild(
+    image
+  );
+
+
+  box.appendChild(
+    name
+  );
+
+
+  box.appendChild(
+    button
+  );
+
+
+  results.appendChild(
+    box
+  );
 
 }
 
-});
+
+/*
+====================================================
+  DOWNLOAD ONE
+====================================================
+*/
+
+function downloadBlob(
+  blob,
+  filename
+) {
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+  link.download =
+    filename;
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  setTimeout(
+    () => {
+
+      URL.revokeObjectURL(
+        url
+      );
+
+    },
+    1000
+  );
+
+}
+
+
+/*
+====================================================
+  DOWNLOAD ALL
+====================================================
+*/
+
+downloadAllButton.addEventListener(
+  "click",
+  async function () {
+
+    if (
+      processedImages.length === 0
+    ) {
+      return;
+    }
+
+
+    status.textContent =
+      "خەریکی دابەزاندنی وێنەکانە...";
+
+
+    for (
+      const image
+      of processedImages
+    ) {
+
+      downloadBlob(
+        image.blob,
+        image.name
+      );
+
+
+      await new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            500
+          )
+      );
+
+    }
+
+
+    status.textContent =
+      "هەموو وێنەکان دابەزێنرا ✅";
+
+  }
+);
 
 </script>
 
