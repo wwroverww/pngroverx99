@@ -26,7 +26,6 @@
             width: 330px;
             text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            margin: 20px 0;
         }
         h1 {
             font-size: 22px;
@@ -40,64 +39,63 @@
             color: #b0b0b0;
             margin-bottom: 20px;
         }
-        .drop-zone {
-            border: 2px dashed rgba(168, 85, 247, 0.4);
+        .upload-box {
+            background: #ffffff; /* پشتی سپی پەتی بۆ سندوقەکە */
+            border: 2px dashed #a855f7;
             border-radius: 14px;
-            padding: 20px 15px;
+            padding: 25px 15px;
             cursor: pointer;
-            transition: 0.3s;
             margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.01);
         }
-        .drop-zone:hover {
-            border-color: #a855f7;
-            background: rgba(168, 85, 247, 0.05);
-        }
-        .drop-zone p {
+        .upload-box p {
             margin: 0;
-            color: #e0e0e0;
-            font-size: 12px;
+            color: #111; /* ڕەنگی ڕەش بۆ ئەوەی لەسەر سپی بەڕوونی دیار بێت */
+            font-size: 13px;
+            font-weight: bold;
             line-height: 1.6;
         }
-        #uploadInput {
+        #fileInput {
             display: none;
         }
-        #statusMsg {
-            font-size: 11px;
-            margin-top: 10px;
-            min-height: 15px;
-            color: #4ade80;
-        }
-        .download-list {
-            max-height: 200px;
+        .list-container {
+            max-height: 220px;
             overflow-y: auto;
-            margin-top: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+        .file-name {
+            font-size: 11px;
+            color: #fff;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .download-btn {
-            display: block;
-            width: 100%;
             background: linear-gradient(45deg, #a855f7, #ec4899);
             color: white;
             border: none;
-            padding: 11px;
-            border-radius: 12px;
-            font-family: Tahoma, sans-serif;
-            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
-            box-sizing: border-box;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            cursor: pointer;
         }
         .footer {
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 10px;
             color: #777;
-            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -105,80 +103,49 @@
 
     <div class="card">
         <h1>Erest grocery</h1>
-        <div class="subtitle">گۆڕینی وێنە بۆ PNG + پشتی سپی (تا ١٠ دانە)</div>
+        <div class="subtitle">ئامادەکردنی وێنەکان بۆ داونلۆد</div>
 
-        <div class="drop-zone" onclick="document.getElementById('uploadInput').click()">
-            <p>وێنەکان لێرە دابنی (تا ١٠ دانە)<br><span style="font-size: 10px; color: #888;">پشتیان ڕاستەوخۆ دەبێتە سپی</span></p>
-            <input type="file" id="uploadInput" accept="image/*" multiple>
+        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+            <p>📁 وێنەکان لێرە هەڵبژێرە<br><span style="font-size: 10px; color: #555;">(تا ١٠ وێنە بەیەکەوە)</span></p>
+            <input type="file" id="fileInput" accept="image/*" multiple>
         </div>
 
-        <div id="statusMsg"></div>
-        
-        <div id="downloadList" class="download-list"></div>
+        <div id="fileList" class="list-container"></div>
 
         <div class="footer">دروستکراوی: rover & paiwast</div>
     </div>
 
     <script>
-        const fileInput = document.getElementById('uploadInput');
-        const statusMsg = document.getElementById('statusMsg');
-        const downloadList = document.getElementById('downloadList');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
 
         fileInput.addEventListener('change', function(e) {
             const files = e.target.files;
             if (!files.length) return;
 
-            downloadList.innerHTML = '';
-            
-            const count = Math.min(files.length, 10);
-            statusMsg.textContent = 'چاوەڕوانبە، وێنەکان ئامادە دەکرێن...';
+            fileList.innerHTML = '';
+            const limit = Math.min(files.length, 10);
 
-            let processedCount = 0;
-
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < limit; i++) {
                 const file = files[i];
-                const reader = new FileReader();
+                const fileUrl = URL.createObjectURL(file);
 
-                reader.onload = function(event) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        const ctx = canvas.getContext('2d');
+                const item = document.createElement('div');
+                item.className = 'file-item';
 
-                        // پڕکردنەوەی پشتم بە ڕەنگی سپی پەتی
-                        ctx.fillStyle = '#FFFFFF';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'file-name';
+                nameSpan.textContent = file.name;
 
-                        // کێشانی وێنەکە لەسەر پشتە سپییەکە
-                        ctx.drawImage(img, 0, 0);
+                const btn = document.createElement('a');
+                btn.href = fileUrl;
+                btn.download = file.name;
+                btn.className = 'download-btn';
+                btn.textContent = 'داونلۆد';
 
-                        // بەکارهێنانی Blob بۆ ئەوەی لەسەر ئایفۆنیش بە `.png` ی پاک داوەزێت
-                        canvas.toBlob(function(blob) {
-                            const blobUrl = URL.createObjectURL(blob);
-                            
-                            // پاککردنەوەی ناوی فایل لە پاشگری پێشوو بۆ ئەوەی دوو جار پاشگری نەبێت
-                            let cleanName = file.name.substring(0, file.name.lastIndexOf('.'));
-                            if (!cleanName) cleanName = 'image_' + (i + 1);
-
-                            const btn = document.createElement('a');
-                            btn.href = blobUrl;
-                            btn.download = cleanName + '.png';
-                            btn.className = 'download-btn';
-                            btn.textContent = '📥 داونلۆدی پاوەڕ: ' + cleanName + '.png';
-                            
-                            downloadList.appendChild(btn);
-
-                            processedCount++;
-                            if (processedCount === count) {
-                                statusMsg.textContent = count + ' وێنە بە سەرکەوتوویی ئامادە بوون!';
-                            }
-                        }, 'image/png');
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
+                item.appendChild(nameSpan);
+                item.appendChild(btn);
+                fileList.appendChild(item);
             }
         });
     </script>
